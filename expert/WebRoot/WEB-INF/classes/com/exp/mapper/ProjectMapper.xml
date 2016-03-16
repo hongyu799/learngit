@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.exp.dao.ProjectDao">
+
+	<resultMap type="com.exp.model.Project" id="projectMap">
+		<result property="wcmivTableId" column="WCMIVTABLE4ID" />
+		<result property="documentId" column="DOCUMENTID" />
+		<result property="channelId" column="CHANNELID" />
+		<result property="infoViewId" column="INFOVIEWID" />
+		<result property="crUser" column="CRUSER" />
+		<result property="crTime" column="CRTIME" />
+		<result property="postUser" column="POSTUSER" />
+		<result property="docNo" column="DOCNO" />
+		<result property="randomSerial" column="RANDOMSERIAL" />
+		<result property="rootElement" column="ROOTELEMENT" />
+		<result property="docTitle" column="DOCTITLE" />
+		<result property="xiangMuMingCheng" column="PROJECTNAME" />
+		<result property="ruanJianKaiFa" column="SOFTWARE" />
+		<result property="xiTongJiCheng" column="SYSTEM" />
+		<result property="wangLuoGongCheng" column="NETWORK" />
+		<result property="xinXiAnQuan" column="INFO" />
+		<result property="jiFangJianShe" column="ITROOM" />
+		<result property="yunWeiGuanLi" column="OPERATE" />
+		<result property="quanBu" column="MAJORALL"/><!-- 后加的 -->
+		<result property="xiangMuBeiJing" column="PROJECTBACK" />
+		<result property="tiJiaoRen" column="SUBMITTER" />
+		<result property="docStatus" column="DOCSTATUS" />
+		<result property="zhuanJiaRenShu" column="EXPERTNUM" />
+	    <result property="nickName" column="nickname"/>
+	</resultMap>
+
+	<select id="findProject" parameterType="com.exp.model.Project"
+		resultMap="projectMap">
+		<![CDATA[
+		select * from(
+			select a.*,ROWNUM RN from (
+				select d.docstatus,t.* from ${tableName } t,WCMDOCUMENT d where d.docid = t.documentid and SUBMITTER=#{tiJiaoRen } order by t.documentid desc
+			) a WHERE ROWNUM <= #{page.stopNum })  WHERE RN > #{page.startNum }
+		]]>
+	</select>
+
+	<select id="findProjectById" parameterType="com.exp.model.Project"
+		resultMap="projectMap">
+		select d.docstatus,t.*,u.nickname from ${tableName } t,WCMDOCUMENT d,wcmuser u where u.username=d.operuser and d.docid = t.documentid and ${idName }=#{wcmivTableId }
+	</select>
+	<select id="findNewProject" parameterType="com.exp.model.Project"
+		resultMap="projectMap">
+		<![CDATA[
+			select d.docstatus,a.*,u.nickname from (select * from ${tableName } t order by t.${idName } desc) a ,WCMDOCUMENT d,wcmuser u where u.username=d.operuser and d.docid = a.documentid and rownum < 2
+		]]>
+	</select>
+	
+	<update id="updateDocStatus" parameterType="com.exp.model.Project">
+		update wcmdocument d set d.docstatus = #{docStatus } where d.docid = ${docNo }
+	</update>
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.exp.dao.WcmUserDao">
+
+	<resultMap type="com.exp.model.WcmUser" id="wcmUserMap">
+		<result property="userId" column="USERID" />
+		<result property="userName" column="USERNAME" />
+		<result property="password" column="PASSWORD" />
+		<result property="nickName" column="NICKNAME" />
+		<result property="status" column="STATUS" />
+		<result property="ugroup" column="GROUPID" />
+	</resultMap>
+
+	<select id="login" parameterType="com.exp.model.WcmUser" resultMap="wcmUserMap">
+		select u.*,g.groupid from wcmuser u, wcmgrpuser g where u.userid=g.userid and USERNAME=#{userName}
+	</select>
+</mapper>

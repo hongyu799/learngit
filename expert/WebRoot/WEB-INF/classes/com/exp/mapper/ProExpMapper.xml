@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.exp.dao.ProExpDao">
+
+	<resultMap type="com.exp.model.ProExp" id="proExpMap">
+		<result property="proId" column="PROID" />
+		<result property="exp" column="EXPS" />
+		<result property="firstTime" column="FIRSTTIME" />
+		<result property="status" column="STATUS" />
+		<result property="remark" column="REMARK" />
+	</resultMap>
+
+	<insert id="addRelation" parameterType="com.exp.model.ProExp">
+		INSERT INTO PROEXP(PROID,EXPS,FIRSTTIME,STATUS) VALUES(#{proId},#{exp},#{firstTime},#{status})
+	</insert>
+	<select id="findRelation" parameterType="com.exp.model.ProExp" resultMap="proExpMap">
+		select * from PROEXP t where t.proid=#{proId}
+	</select>
+	<delete id="deleteRelation" parameterType="com.exp.model.ProExp">
+		delete from proexp t where t.proid=#{proId} <if test="exp!=null and exp!=''"> and t.exps=#{exp}</if>
+	</delete>
+	<select id="getRelationCount" parameterType="com.exp.model.ProExp" resultType="java.lang.Integer">
+		select * from proexp t where t.proid=#{proId} and status=1
+	</select>
+	<update id="updateDelStatus" parameterType="com.exp.model.ProExp">
+		update proexp pe set pe.status=2,pe.remark=#{remark} where pe.proid=#{proId} and pe.exps=#{exp} 
+	</update>
+</mapper>

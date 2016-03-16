@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.exp.dao.ValCodeInfoDao">
+
+	<resultMap type="com.exp.model.ValCode" id="valCodeMap">
+		<result property="code" column="code" />
+		<result property="expName" column="expname" />
+		<result property="expId" column="expid" />
+	</resultMap>
+
+	<select id="findValCode" parameterType="com.exp.model.ValCode" resultType="com.exp.model.ValCode">
+	select * from valcode where code=#{code}
+	</select>
+
+	<insert id="putValCode" parameterType="com.exp.model.ValCode">
+		INSERT INTO valcode (code,expname,expid ) VALUES (#{code }, #{expName }, #{expId })
+	</insert>
+
+</mapper>

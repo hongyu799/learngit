@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.exp.dao.ExpertDao">
+
+	<resultMap type="com.exp.model.Expert" id="expertMap">
+	<result property="wcmivTableId" column="WCMIVTABLE5ID" />
+		<result property="documentId" column="DOCUMENTID" />
+		<result property="channelId" column="CHANNELID" />
+		<result property="infoViewId" column="INFOVIEWID" />
+		<result property="crUser" column="CRUSER" />
+		<result property="crTime" column="CRTIME" />
+		<result property="postUser" column="POSTUSER" />
+		<result property="docNo" column="DOCNO" />
+		<result property="randomSerial" column="RANDOMSERIAL" />
+		<result property="rootElement" column="ROOTELEMENT" />
+		<result property="docTitle" column="DOCTITLE" />
+		<result property="shenQingRiQi" column="APPDATE" />
+		<result property="bianHao" column="EXPORTNO" />
+		<result property="xingMing" column="NAME" />
+		<result property="xingBie" column="SEX" />
+		<result property="chuShengRiQi" column="BIRTHDAY" />
+		<result property="minZu" column="NATION" />
+		<result property="zhaoPian" column="ZHAO_PIAN" />
+		<result property="gongZuoDanWei" column="COMPANY" />
+		<result property="suoZaiChengShi" column="CITY" />
+		<result property="zhiWu" column="DUTY" />
+		<result property="zhiCheng" column="JOB" />
+		<result property="pingDingShiJian" column="EVALUATIONTIME" />
+		<result property="xueLi" column="DEGREE" />
+		<result property="suoZaiXueXiao" column="SCHOOL" />
+		<result property="biYeShiJian" column="GRADUATETIME" />
+		<result property="congShiZhuanYe" column="WORKMAJOR" />
+		<result property="congShiShiJian" column="WORKTIME" />
+		<result property="shenTiZhuangKuang" column="HEALTH" />
+		<result property="lianXiDiZhi" column="ADDRESS" />
+		<result property="youBian" column="POSTCODE" />
+		<result property="banGongDianHua" column="OFFICEPHONE" />
+		<result property="zhuZhaiDianHua" column="HOMEPHONE" />
+		<result property="yiDongDianHua" column="MOBILEPHONE" />
+		<result property="shenFenZhengHao" column="IDNUMBER" />
+		<result property="youXiangDiZhi" column="EMAIL" />
+		<result property="zhuanYe1" column="MAJOR1" />
+		<result property="zhuanYe2" column="MAJOR2" />
+		<result property="zhuanYe3" column="MAJOR3" />
+		<result property="zhiChengZhengShu1" column="CERTIFICATE1" />
+		<result property="zhiChengZhengShu2" column="CERTIFICATE2" />
+		<result property="zhiChengZhengShu3" column="CERTIFICATE3" />
+
+
+		<!--<result property="suoZaiDanWeiYiJian" column="SUO_ZAI_DAN_WEI_YI_JIAN" />
+		<result property="suoZaiDanWeiYiJianRiQiDate" column="SUO_ZAI_DAN_WEI_YI_JIAN_RI_QI" />
+		<result property="dzzwbgsyj" column="DZZWBGSYJ" />
+		<result property="dzzwbgsyjrq" column="DZZWBGSYJRQ" />
+		<result property="xzzgbmyj" column="XZZGBMYJ" />
+		<result property="xzzgbmyjrq" column="XZZGBMYJRQ" />
+		<result property="banGongDianHua" column="BAN_GONG_DIAN_HUA" />
+		<result property="lianXiDianHua" column="LIAN_XI_DIAN_HUA" />
+		<result property="zhengShuShangChuan1" column="ZHENG_SHU_SHANG_CHUAN1" />
+		<result property="zhengShuShangChuan2" column="ZHENG_SHU_SHANG_CHUAN2" />
+		<result property="zhengShuShangChuan3" column="ZHENG_SHU_SHANG_CHUAN3" />
+		<result property="danWeiYiJianRiQi" column="DAN_WEI_YI_JIAN_RI_QI" />
+		<result property="banGongShiYiJian" column="BAN_GONG_SHI_YI_JIAN" />
+		<result property="banGongShiYiJianRiQi" column="BAN_GONG_SHI_YI_JIAN_RI_QI" />
+		<result property="zhuGuanYiJian" column="ZHU_GUAN_YI_JIAN" />
+		<result property="zhuGuanYiJianRiQi" column="ZHU_GUAN_YI_JIAN_RI_QI" />
+		--><result property="docStatus" column="DOCSTATUS" />
+	</resultMap>
+
+	<select id="findExps" parameterType="com.exp.model.Expert"
+		resultMap="expertMap">
+		select *
+		from (
+		<if test="project.ruanJianKaiFa!=''">
+			select * from ${tableName } t1 where t1.MAJOR1 = '软件开发' or t1.MAJOR2
+			= '软件开发' or t1.MAJOR3 = '软件开发'
+		    </if>
+		<if
+			test="project.xiTongJiCheng!=''||project.wangLuoGongCheng!=''||project.xinXiAnQuan!=''||project.jiFangJianShe!=''||project.yunWeiGuanLi!=''">
+			<if test="project.ruanJianKaiFa!=''">
+				union
+		    </if>
+		</if>
+		<if test="project.xiTongJiCheng!=''">
+			select * from ${tableName } t1 where t1.MAJOR1 = '系统集成' or t1.MAJOR2
+			= '系统集成' or t1.MAJOR3 = '系统集成'
+		    </if>
+		<if
+			test="project.wangLuoGongCheng!=''||project.xinXiAnQuan!=''||project.jiFangJianShe!=''||project.yunWeiGuanLi!=''">
+			<if test="project.xiTongJiCheng!=''">
+				union
+		    </if>
+		</if>
+		<if test="project.wangLuoGongCheng!=''">
+			select * from ${tableName } t1 where t1.MAJOR1 = '网络工程' or t1.MAJOR2
+			= '网络工程' or t1.MAJOR3 = '网络工程'
+		   </if>
+		<if
+			test="project.xinXiAnQuan!=''||project.jiFangJianShe!=''||project.yunWeiGuanLi!=''">
+			<if test="project.wangLuoGongCheng!=''">
+				union
+		  	</if>
+		</if>
+		<if test="project.xinXiAnQuan!=''">
+			select * from ${tableName } t1 where t1.MAJOR1 = '信息安全' or t1.MAJOR2
+			= '信息安全' or t1.MAJOR3 = '信息安全'
+		    </if>
+		<if test="project.jiFangJianShe!=''||project.yunWeiGuanLi!=''">
+			<if test="project.xinXiAnQuan!=''">
+				union
+		    </if>
+		</if>
+		<if test="project.jiFangJianShe!=''">
+			select * from ${tableName } t1 where t1.MAJOR1 = '机房建设' or t1.MAJOR2
+			= '机房建设' or t1.MAJOR3 = '机房建设'
+		    </if>
+		<if test="project.yunWeiGuanLi!=''">
+			<if test="project.jiFangJianShe!=''">
+				union
+		    </if>
+		</if>
+		<if test="project.yunWeiGuanLi!=''">
+			select * from ${tableName } t1 where t1.MAJOR1 = '运维管理' or t1.MAJOR2
+			= '运维管理' or t1.MAJOR3 = '运维管理'
+		    </if>
+		) t,WCMDOCUMENT d where d.docid = t.documentid and d.docstatus=16
+	</select>
+
+	<select id="findExpsByProId" parameterType="com.exp.model.Expert"
+		resultMap="expertMap">
+		select a.* from ${tableName } a,proexp b where a.${idName }=b.exps and b.proid=${docNo} and b.status=1
+	</select>
+
+	<select id="queryExps" parameterType="com.exp.model.Expert"
+		resultMap="expertMap">
+		select *
+		from (
+		<if test="project.ruanJianKaiFa!=''">
+			select * from ${tableName } t1 where t1.MAJOR1 = '软件开发' or t1.MAJOR2
+			= '软件开发' or t1.MAJOR3 = '软件开发'
+		    </if>
+		<if
+			test="project.xiTongJiCheng!=''||project.wangLuoGongCheng!=''||project.xinXiAnQuan!=''||project.jiFangJianShe!=''||project.yunWeiGuanLi!=''">
+			<if test="project.ruanJianKaiFa!=''">
+				union
+		    </if>
+		</if>
+		<if test="project.xiTongJiCheng!=''">
+			select * from ${tableName } t1 where t1.MAJOR1 = '系统集成' or t1.MAJOR2
+			= '系统集成' or t1.MAJOR3 = '系统集成'
+		    </if>
+		<if
+			test="project.wangLuoGongCheng!=''||project.xinXiAnQuan!=''||project.jiFangJianShe!=''||project.yunWeiGuanLi!=''">
+			<if test="project.xiTongJiCheng!=''">
+				union
+		    </if>
+		</if>
+		<if test="project.wangLuoGongCheng!=''">
+			select * from ${tableName } t1 where t1.MAJOR1 = '网络工程' or t1.MAJOR2
+			= '网络工程' or t1.MAJOR3 = '网络工程'
+		   </if>
+		<if
+			test="project.xinXiAnQuan!=''||project.jiFangJianShe!=''||project.yunWeiGuanLi!=''">
+			<if test="project.wangLuoGongCheng!=''">
+				union
+		  	</if>
+		</if>
+		<if test="project.xinXiAnQuan!=''">
+			select * from ${tableName } t1 where t1.MAJOR1 = '信息安全' or t1.MAJOR2
+			= '信息安全' or t1.MAJOR3 = '信息安全'
+		    </if>
+		<if test="project.jiFangJianShe!=''||project.yunWeiGuanLi!=''">
+			<if test="project.xinXiAnQuan!=''">
+				union
+		    </if>
+		</if>
+		<if test="project.jiFangJianShe!=''">
+			select * from ${tableName } t1 where t1.MAJOR1 = '机房建设' or t1.MAJOR2
+			= '机房建设' or t1.MAJOR3 = '机房建设'
+		    </if>
+		<if test="project.yunWeiGuanLi!=''">
+			<if test="project.jiFangJianShe!=''">
+				union
+		    </if>
+		</if>
+		<if test="project.yunWeiGuanLi!=''">
+			select * from ${tableName } t1 where t1.MAJOR1 = '运维管理' or t1.MAJOR2
+			= '运维管理' or t1.MAJOR3 = '运维管理'
+		    </if>
+		) t,WCMDOCUMENT d where d.docid = t.documentid and d.docstatus=16 and t.${idName } not in(
+		select b.exps from proexp b where b.proid=${docNo} and b.status=1)
+
+	</select>
+</mapper>
